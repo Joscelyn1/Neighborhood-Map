@@ -24,7 +24,17 @@
       <h3 class="title"> main part </h3>
       <h3 class="title">My Neighborhood</h3>
       <div class="map" id="map"></div>
-        <script async defer
+        <script> // display the map
+          function initMap() {
+          // focus the map on Simi Valley
+          var simiValley = {lat: 34.269447, lng: -118.781479};
+          var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 12,
+          center: simiValley
+      });
+
+}</script>
+        <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB8OgQ-pVjMqCTaonNPsAt4v-OzVT7k0B4&v=3&callback=initMap">
         </script>
     </div>

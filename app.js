@@ -1,37 +1,33 @@
-// display the map
-function initMap() {
-// focus the map on Simi Valley
-  var simiValley = {lat: 34.269447, lng: -118.781479};
-  var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 12,
-    center: simiValley
-  });
 
-}
 
 var markers = [
                     {
                         name : 'Ronald Reagan Library',
+                        position : {lat: 34.2598767, lng: 118.81982089999997},
                         lat : 34.2598767,
                         long : 118.81982089999997,
                     },
                     {
                         name : 'Simi Valley Library',
+                        position : {lat: 34.28901761295414, lng: -118.7193630981476},
                         lat : 34.28901761295414,
                         long : -118.7193630981476,
                     },
                     {
                         name : 'Campos',
+                        position : {lat: 34.2744238, lng: -118.70930759999999},
                         lat : 34.2744238,
                         long : -118.70930759999999,
                     },
                     {
                         name : 'Lemon Park',
+                        position : {lat: 34.2896751, lng: -118.7239667},
                         lat : 34.2896751,
                         long : -118.7239667,
                     },
                     {
                         name : 'Arroyo Simi Bike Path',
+                        position : {lat: 34.268684, lng: -118.705252},
                         lat : 34.268684,
                         long : -118.705252
                     }
@@ -43,14 +39,11 @@ var Marker = function(data) {
     this.name = ko.observable(data.name);
     this.lat = ko.observable(data.lat);
     this.long = ko.observable(data.long);
-    this.position = ko.computed(function() {
-        return this.lat() + ", " + this.long();
-    }, this);
-
+    this.position = ko.observable(data.position);
     this.marker = new google.maps.Marker({
-        position: myLatLng,
-        map: map,
-        title: 'Hello World!'
+        position: this.position(),
+        setMap: map,
+        title: this.name
       });
 
 }
