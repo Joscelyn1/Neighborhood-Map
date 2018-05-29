@@ -47,6 +47,12 @@ var Marker = function(data) {
         return this.lat() + ", " + this.long();
     }, this);
 
+    this.marker = new google.maps.Marker({
+        position: myLatLng,
+        map: map,
+        title: 'Hello World!'
+      });
+
 }
 
 
