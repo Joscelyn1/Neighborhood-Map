@@ -1,0 +1,38 @@
+li {
+  list-style-type: none;
+}
+/* Always set the map height explicitly to define the size of the div
+ * element that contains the map. */
+#map {
+  height: 100%;
+}
+/* Optional: Makes the sample page fill the window. */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Titillium Web', sans-serif;
+  background-color: black;
+  color: #c4c8ce;
+
+}
+
+.sidebar {
+  float: left;
+  width: 24.5%;
+  height: 100%;
+  border-right: solid medium white;
+  background: black;
+  margin-bottom: -250px; /* any large number will do */
+  padding-bottom: 250px;
+}
+
+.mainpart {
+  float: right;
+  width: 75%;
+  height: 95%;
+}
+
+.title {
+  text-align: center;
+}
