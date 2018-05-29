@@ -41,9 +41,9 @@ var Marker = function(data) {
     this.long = ko.observable(data.long);
     this.position = ko.observable(data.position);
     this.marker = new google.maps.Marker({
-        position: this.position(),
+        position: data.position,
         setMap: map,
-        title: this.name
+        title: data.name
       });
 
 }
@@ -61,6 +61,7 @@ var viewModel = function() {
 
 
     this.currentMarker = ko.observable( this.markerList()[0] );
+
 
 }
 
