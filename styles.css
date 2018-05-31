@@ -21,9 +21,8 @@ html, body {
   float: left;
   width: 24.5%;
   height: 100%;
-  border-right: solid medium white;
   background: black;
-  margin-bottom: -250px; /* any large number will do */
+  margin-bottom: -250px;
   padding-bottom: 250px;
 }
 
