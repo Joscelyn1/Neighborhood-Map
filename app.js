@@ -1,3 +1,5 @@
+// Sources: I used the example code from the Udacity Google API course as starter code. https://github.com/udacity/ud864
+
 
 /* ======= model ======= */
 
