@@ -1,5 +1,5 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -8,38 +8,23 @@
     <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
     <!-- CSS -->
     <link rel="stylesheet" href="styles.css">
-
-    <title>Neighborhood Map</title>
-  </head>
+     </head>
   <body>
-
-
-  <div class="sidebar">
-    <h3 class="title">side bar</h3>
-    <nav data-bind="foreach: markerList">
-      <li data-bind="text: name"> </li>
-    </nav>
-  </div>
-    <div class="mainpart">
-      <h3 class="title"> main part </h3>
-      <h3 class="title">My Neighborhood</h3>
-      <div class="map" id="map"></div>
-        <script> // display the map
-          function initMap() {
-          // focus the map on Simi Valley
-          var simiValley = {lat: 34.269447, lng: -118.781479};
-          var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 12,
-          center: simiValley
-      });
-
-}</script>
-        <script
+    <div data-bind="foreach: markerList class="container">
+      <div class="options-box">
+        <h1>Simi Valley Neighborhood Map</h1>
+        <div>
+          <input id="show-listings" type="button" value="Show Listings">
+          <input id="hide-listings" type="button" value="Hide Listings">
+        </div>
+        <nav>
+            <li data-bind="text: title"> </li>
+        </nav>
+      </div>
+      <div id="map">    <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB8OgQ-pVjMqCTaonNPsAt4v-OzVT7k0B4&v=3&callback=initMap">
-        </script>
+    </script></div>
     </div>
-
-
 <!--link to knockout-->
   <script type='text/javascript' src='knockout.js'></script>
 
@@ -47,23 +32,5 @@
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <!-- link to js file-->
   <script src="app.js"></script>
-  </body>
+</body>
 </html>
-
-<!--
-1. Get the List View displaying on the page with Knockout
-Review the JavaScript Design Patterns lessons 14 as needed
-
-2. Add the map and markers displaying on the page.
-Review the Google Maps APIs course 1 as needed
-
-3. Create functionality to activate the markers and open the infowindows when list view item is clicked using a Knockout.js click binding 8
-
-4. Add filter for map and markers.
-This post might help: How to implement Knockout into the project 10
-
-5. Add a third party API to provide additional data about your locations.
-Review the Intro to AJAX lessons 4 as needed.
-
-6. Fix styling to ensure responsiveness
-Review the Responsive Design Fundamentals lessons 1 as needed-->
