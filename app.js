@@ -38,8 +38,10 @@ function initMap() {
     // Get the position from the location array.
     var position = model.locations[i].location;
     var title = model.locations[i].title;
+    var address = model.locations[i].address;
     // Create a marker per location, and put into markers array.
      var marker = new google.maps.Marker({
+      address: address,
       position: position,
       title: title,
       animation: google.maps.Animation.DROP,
@@ -50,7 +52,14 @@ function initMap() {
     // Create an onclick event to open an infowindow at each marker.
     marker.addListener('click', function() {
       populateInfoWindow(this, largeInfowindow);
+      { if (this.getAnimation() !== null) {
+            this.setAnimation(null);
+        } else {
+            this.setAnimation(google.maps.Animation.BOUNCE);
+    }
+    }
     });
+
   }
   document.getElementById('show-listings').addEventListener('click', showListings);
   document.getElementById('hide-listings').addEventListener('click', hideListings);
@@ -63,7 +72,7 @@ function populateInfoWindow(marker, infowindow) {
   // Check to make sure the infowindow is not already opened on this marker.
   if (infowindow.marker != marker) {
     infowindow.marker = marker;
-    infowindow.setContent('<div>' + marker.title + '</div>');
+    infowindow.setContent('<div>' + marker.title + '<br>' + marker.address + '</div>');
     infowindow.open(map, marker);
     // Make sure the marker property is cleared if the infowindow is closed.
     infowindow.addListener('closeclick', function() {
@@ -76,12 +85,13 @@ function populateInfoWindow(marker, infowindow) {
 function showListings() {
   var bounds = new google.maps.LatLngBounds();
   // Extend the boundaries of the map for each marker and display the marker
-  for (var i = 0; i < markers.length; i++) {
+  setTimeout(function(){for (var i = 0; i < markers.length; i++) {
     markers[i].setMap(map);
     bounds.extend(markers[i].position);
   }
-  map.fitBounds(bounds);
+  map.fitBounds(bounds);}, 3000);
 }
+
 
 
 // This function will loop through the listings and hide them all.
