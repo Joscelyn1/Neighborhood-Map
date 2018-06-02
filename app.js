@@ -6,11 +6,11 @@
 
 var model = {
   locations: [
-    {title: 'Ronald Reagan Library', location: {lat: 34.2597858, lng: -118.81989599999997}},
-    {title: 'Simi Valley Library', location: {lat: 34.28901761295414, lng: -118.7193630981476}},
-    {title: 'Campos', location: {lat: 34.2744238, lng: -118.70930759999999}},
-    {title: 'Lemon Park', location: {lat: 34.2896751, lng: -118.7239667}},
-    {title: 'Arroyo Simi Bike Path', location: {lat: 34.268684, lng: -118.705252}}
+    {title: 'Ronald Reagan Library', location: {lat: 34.2597858, lng: -118.81989599999997}, address: '40 Presidential Dr, Simi Valley, CA 93065'},
+    {title: 'Simi Valley Library', location: {lat: 34.28901761295414, lng: -118.7193630981476}, address: '2969 Tapo Canyon Rd, Simi Valley, CA 93063'},
+    {title: 'Campos', location: {lat: 34.2744238, lng: -118.70930759999999}, address: '2149 Tapo St, Simi Valley, CA 93063'},
+    {title: 'Lemon Park', location: {lat: 34.2896751, lng: -118.7239667}, address: '3700 Avenida Simi, Simi Valley, CA 93063'},
+    {title: 'Arroyo Simi Bike Path', location: {lat: 34.268684, lng: -118.705252}, address: '4590 Ish Drive, Simi Valley, CA 93063'}
   ]
 
 };
@@ -22,6 +22,7 @@ var map;
 var markers = [];
 
 function initMap() {
+
   var simiValley = {lat: 34.269447, lng: -118.781479};
   // Constructor creates a new map - only center and zoom are required.
   map = new google.maps.Map(document.getElementById('map'), {
@@ -29,7 +30,6 @@ function initMap() {
     zoom: 13,
     mapTypeControl: false
   });
-
 
   var largeInfowindow = new google.maps.InfoWindow();
 
@@ -63,7 +63,7 @@ function populateInfoWindow(marker, infowindow) {
   // Check to make sure the infowindow is not already opened on this marker.
   if (infowindow.marker != marker) {
     infowindow.marker = marker;
-    infowindow.setContent('<div>' + marker.title + '<br>' + marker.location.toString() + '</div>');
+    infowindow.setContent('<div>' + marker.title + '</div>');
     infowindow.open(map, marker);
     // Make sure the marker property is cleared if the infowindow is closed.
     infowindow.addListener('closeclick', function() {
@@ -82,6 +82,7 @@ function showListings() {
   }
   map.fitBounds(bounds);
 }
+
 
 // This function will loop through the listings and hide them all.
 function hideListings() {
