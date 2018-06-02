@@ -63,7 +63,7 @@ function populateInfoWindow(marker, infowindow) {
   // Check to make sure the infowindow is not already opened on this marker.
   if (infowindow.marker != marker) {
     infowindow.marker = marker;
-    infowindow.setContent('<div>' + marker.title + '</div>');
+    infowindow.setContent('<div>' + marker.title + '<br>' + marker.location.toString() + '</div>');
     infowindow.open(map, marker);
     // Make sure the marker property is cleared if the infowindow is closed.
     infowindow.addListener('closeclick', function() {
@@ -92,13 +92,12 @@ function hideListings() {
 
 /* ======= viewModel ======= */
 
-var viewModel = function(model) {
+var viewModel = function() {
   var self = this;
   self.markerList = ko.observableArray(model.locations);
 
 }
 
 ko.applyBindings(new viewModel());
-
 
 

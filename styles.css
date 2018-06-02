@@ -11,6 +11,10 @@
         position: relative;
       }
 
+      .list-of-markers {
+  list-style-type: none;
+}
+
       input {
         font-size: 12px;
       }

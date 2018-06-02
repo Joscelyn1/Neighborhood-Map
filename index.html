@@ -10,15 +10,15 @@
     <link rel="stylesheet" href="styles.css">
      </head>
   <body>
-    <div data-bind="foreach: markerList class="container">
+    <div class="container">
       <div class="options-box">
         <h1>Simi Valley Neighborhood Map</h1>
         <div>
           <input id="show-listings" type="button" value="Show Listings">
           <input id="hide-listings" type="button" value="Hide Listings">
         </div>
-        <nav>
-            <li data-bind="text: title"> </li>
+        <nav data-bind="foreach: markerList">
+            <li class="list-of-markers" data-bind="text: $data.title"> </li>
         </nav>
       </div>
       <div id="map">    <script async defer
