@@ -6,11 +6,11 @@
 
 var model = {
   locations: [
-    {title: 'Ronald Reagan Library', location: {lat: 34.2597858, lng: -118.81989599999997}, address: '40 Presidential Dr, Simi Valley, CA 93065'},
-    {title: 'Simi Valley Library', location: {lat: 34.28901761295414, lng: -118.7193630981476}, address: '2969 Tapo Canyon Rd, Simi Valley, CA 93063'},
-    {title: 'Campos', location: {lat: 34.2744238, lng: -118.70930759999999}, address: '2149 Tapo St, Simi Valley, CA 93063'},
-    {title: 'Lemon Park', location: {lat: 34.2896751, lng: -118.7239667}, address: '3700 Avenida Simi, Simi Valley, CA 93063'},
-    {title: 'Arroyo Simi Bike Path', location: {lat: 34.268684, lng: -118.705252}, address: '4590 Ish Drive, Simi Valley, CA 93063'}
+    {title: 'Ronald Reagan Library', location: {lat: 34.2597858, lng: -118.81989599999997}, address: '40 Presidential Dr, Simi Valley, CA 93065', venueID: '4b463a3bf964a520b51a26e3'},
+    {title: 'Simi Valley Library', location: {lat: 34.28901761295414, lng: -118.7193630981476}, address: '2969 Tapo Canyon Rd, Simi Valley, CA 93063', venueID: '4b22cb20f964a520a64d24e3'},
+    {title: 'Campos', location: {lat: 34.2744238, lng: -118.70930759999999}, address: '2149 Tapo St, Simi Valley, CA 93063', venueID: '4ad503f3f964a5204c0121e3'},
+    {title: 'Lemon Park', location: {lat: 34.2896751, lng: -118.7239667}, address: '3700 Avenida Simi, Simi Valley, CA 93063', venueID: '4b26cf39f964a520478124e3'},
+    {title: 'Starbucks', location: {lat: 34.2801792, lng: -118.76274480000001}, address: '2991 Cochran St, Simi Valley, CA 93065', venueID: '570b2878498eaad5a8a3743a'}
   ]
 
 };
@@ -39,11 +39,13 @@ function initMap() {
     var position = model.locations[i].location;
     var title = model.locations[i].title;
     var address = model.locations[i].address;
+    var venueID = model.locations[i].venueID;
     // Create a marker per location, and put into markers array.
      var marker = new google.maps.Marker({
       address: address,
       position: position,
       title: title,
+      venueID: venueID,
       animation: google.maps.Animation.DROP,
       id: i
     });
@@ -100,6 +102,29 @@ function hideListings() {
     markers[i].setMap(null);
   }
 }
+
+/* ======= FourSquare API ======= */
+
+const request = require('request');
+
+request({
+  url: 'https://api.foursquare.com/v2/venues/explore',
+  method: 'GET',
+  qs: {
+    client_id: 'AIQ4PXY5VMLG5144MCAKHZ2WSJK2YAAYW00TWK14XLF1HWRH',
+    client_secret: 'LIWVZORD4ERVJIIHHQZDTFJFZBZR0SAWCUERL2ENDAEU41F4',
+    ll: '40.7243,-74.0018',
+    query: 'coffee',
+    v: '20180323',
+    limit: 1
+  }
+}, function(err, res, body) {
+  if (err) {
+    console.error(err);
+  } else {
+    console.log(body);
+  }
+});
 
 /* ======= viewModel ======= */
 
