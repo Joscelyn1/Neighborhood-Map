@@ -71,8 +71,6 @@ function initMap() {
         } else {
             this.setAnimation(google.maps.Animation.BOUNCE);
             this.setAnimation(null);
-
-
     }
     }
     });
