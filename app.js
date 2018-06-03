@@ -35,11 +35,21 @@ function initMap() {
 
   // The following group uses the location array to create an array of markers on initialize.
   for (var i = 0; i < model.locations.length; i++) {
+
+    $.ajax({
+        url: "https://api.foursquare.com/v2/venues/" + model.locations[i].venueID + "/?client_id=AIQ4PXY5VMLG5144MCAKHZ2WSJK2YAAYW00TWK14XLF1HWRH&client_secret=LIWVZORD4ERVJIIHHQZDTFJFZBZR0SAWCUERL2ENDAEU41F4&v=20180602",
+        dataType: 'jsonp',
+        success: function(data){
+            model.locations[i].description = data.response.venue.description;
+        }
+    });
+
     // Get the position from the location array.
     var position = model.locations[i].location;
     var title = model.locations[i].title;
     var address = model.locations[i].address;
     var venueID = model.locations[i].venueID;
+    var description = model.locations[i].description;
 
     // Create a marker per location, and put into markers array.
      var marker = new google.maps.Marker({
@@ -47,6 +57,7 @@ function initMap() {
       position: position,
       title: title,
       venueID: venueID,
+      description: description,
       animation: google.maps.Animation.DROP,
       id: i
     });
@@ -59,6 +70,9 @@ function initMap() {
             this.setAnimation(null);
         } else {
             this.setAnimation(google.maps.Animation.BOUNCE);
+            this.setAnimation(null);
+
+
     }
     }
     });
@@ -75,7 +89,7 @@ function populateInfoWindow(marker, infowindow) {
   // Check to make sure the infowindow is not already opened on this marker.
   if (infowindow.marker != marker) {
     infowindow.marker = marker;
-    infowindow.setContent('<div>' + marker.title + '<br>' + marker.address + '<br>' + '</div>');
+    infowindow.setContent('<div>' + marker.title + '<br>' + marker.description + '<br>' + '</div>');
     infowindow.open(map, marker);
     // Make sure the marker property is cleared if the infowindow is closed.
     infowindow.addListener('closeclick', function() {
@@ -104,20 +118,8 @@ function hideListings() {
   }
 }
 
-/* ======= FourSquare API ======= */
 
 
-
-
-var description = $.ajax({
-    url: "https://api.foursquare.com/v2/venues/4b463a3bf964a520b51a26e3/?client_id=AIQ4PXY5VMLG5144MCAKHZ2WSJK2YAAYW00TWK14XLF1HWRH&client_secret=LIWVZORD4ERVJIIHHQZDTFJFZBZR0SAWCUERL2ENDAEU41F4&v=20180602",
-    dataType: 'jsonp',
-    success: function(data){
-        return data.response.venue.description;
-    }
-});
-
-console.log(description)
 /* ======= viewModel ======= */
 
 var viewModel = function() {
