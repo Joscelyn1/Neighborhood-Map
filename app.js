@@ -40,6 +40,7 @@ function initMap() {
     var title = model.locations[i].title;
     var address = model.locations[i].address;
     var venueID = model.locations[i].venueID;
+
     // Create a marker per location, and put into markers array.
      var marker = new google.maps.Marker({
       address: address,
@@ -74,7 +75,7 @@ function populateInfoWindow(marker, infowindow) {
   // Check to make sure the infowindow is not already opened on this marker.
   if (infowindow.marker != marker) {
     infowindow.marker = marker;
-    infowindow.setContent('<div>' + marker.title + '<br>' + marker.address + '</div>');
+    infowindow.setContent('<div>' + marker.title + '<br>' + marker.address + '<br>' + '</div>');
     infowindow.open(map, marker);
     // Make sure the marker property is cleared if the infowindow is closed.
     infowindow.addListener('closeclick', function() {
@@ -87,11 +88,11 @@ function populateInfoWindow(marker, infowindow) {
 function showListings() {
   var bounds = new google.maps.LatLngBounds();
   // Extend the boundaries of the map for each marker and display the marker
-  setTimeout(function(){for (var i = 0; i < markers.length; i++) {
+  for (var i = 0; i < markers.length; i++) {
     markers[i].setMap(map);
     bounds.extend(markers[i].position);
   }
-  map.fitBounds(bounds);}, 3000);
+  map.fitBounds(bounds);
 }
 
 
@@ -105,27 +106,18 @@ function hideListings() {
 
 /* ======= FourSquare API ======= */
 
-const request = require('request');
 
-request({
-  url: 'https://api.foursquare.com/v2/venues/explore',
-  method: 'GET',
-  qs: {
-    client_id: 'AIQ4PXY5VMLG5144MCAKHZ2WSJK2YAAYW00TWK14XLF1HWRH',
-    client_secret: 'LIWVZORD4ERVJIIHHQZDTFJFZBZR0SAWCUERL2ENDAEU41F4',
-    ll: '40.7243,-74.0018',
-    query: 'coffee',
-    v: '20180323',
-    limit: 1
-  }
-}, function(err, res, body) {
-  if (err) {
-    console.error(err);
-  } else {
-    console.log(body);
-  }
+
+
+var description = $.ajax({
+    url: "https://api.foursquare.com/v2/venues/4b463a3bf964a520b51a26e3/?client_id=AIQ4PXY5VMLG5144MCAKHZ2WSJK2YAAYW00TWK14XLF1HWRH&client_secret=LIWVZORD4ERVJIIHHQZDTFJFZBZR0SAWCUERL2ENDAEU41F4&v=20180602",
+    dataType: 'jsonp',
+    success: function(data){
+        return data.response.venue.description;
+    }
 });
 
+console.log(description)
 /* ======= viewModel ======= */
 
 var viewModel = function() {
