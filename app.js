@@ -36,12 +36,13 @@ function initMap() {
   // The following group uses the location array to create an array of markers on initialize.
   for (var i = 0; i < model.locations.length; i++) {
 
-    $.ajax({
+$.ajax({
         url: "https://api.foursquare.com/v2/venues/" + model.locations[i].venueID + "/?client_id=AIQ4PXY5VMLG5144MCAKHZ2WSJK2YAAYW00TWK14XLF1HWRH&client_secret=LIWVZORD4ERVJIIHHQZDTFJFZBZR0SAWCUERL2ENDAEU41F4&v=20180602",
         dataType: 'jsonp',
-        success: function(data){
-            model.locations[i].description = data.response.venue.description;
-        }
+        success: (function(index, data){
+            console.log(data.response.venue.description);
+            model.locations[index].description = data.response.venue.description;
+        }).bind( null, i )
     });
 
     // Get the position from the location array.
@@ -50,6 +51,8 @@ function initMap() {
     var address = model.locations[i].address;
     var venueID = model.locations[i].venueID;
     var description = model.locations[i].description;
+
+
 
     // Create a marker per location, and put into markers array.
      var marker = new google.maps.Marker({
@@ -74,7 +77,7 @@ function initMap() {
     }
     }
     });
-
+showListings();
   }
   document.getElementById('show-listings').addEventListener('click', showListings);
   document.getElementById('hide-listings').addEventListener('click', hideListings);
@@ -127,5 +130,6 @@ var viewModel = function() {
 }
 
 ko.applyBindings(new viewModel());
+
 
 
