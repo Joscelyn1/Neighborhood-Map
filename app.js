@@ -40,7 +40,6 @@ $.ajax({
         url: "https://api.foursquare.com/v2/venues/" + model.locations[i].venueID + "/?client_id=AIQ4PXY5VMLG5144MCAKHZ2WSJK2YAAYW00TWK14XLF1HWRH&client_secret=LIWVZORD4ERVJIIHHQZDTFJFZBZR0SAWCUERL2ENDAEU41F4&v=20180602",
         dataType: 'jsonp',
         success: (function(index, data){
-            console.log(data.response.venue.description);
             model.locations[index].description = data.response.venue.description;
         }).bind( null, i )
     });
@@ -66,6 +65,10 @@ $.ajax({
     });
     // Push the marker to our array of markers.
     markers.push(marker);
+
+    // Make each marker a property of its respective location
+    model.locations[i].marker = markers[i];
+
     // Create an onclick event to open an infowindow at each marker.
     marker.addListener('click', function() {
       populateInfoWindow(this, largeInfowindow);
@@ -83,6 +86,7 @@ showListings();
   document.getElementById('hide-listings').addEventListener('click', hideListings);
 }
 
+
 // This function populates the infowindow when the marker is clicked. We'll only allow
 // one infowindow which will open at the marker that is clicked, and populate based
 // on that markers position.
@@ -98,6 +102,7 @@ function populateInfoWindow(marker, infowindow) {
     });
   }
 }
+
 
 // This function will loop through the markers array and display them all.
 function showListings() {
@@ -128,6 +133,7 @@ var viewModel = function() {
   self.markerList = ko.observableArray(model.locations);
 
 }
+
 
 ko.applyBindings(new viewModel());
 
