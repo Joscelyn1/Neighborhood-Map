@@ -36,14 +36,13 @@ function initMap() {
   // The following group uses the location array to create an array of markers on initialize.
   for (var i = 0; i < model.locations.length; i++) {
 
-$.ajax({
-        url: "https://api.foursquare.com/v2/venues/" + model.locations[i].venueID + "/?client_id=AIQ4PXY5VMLG5144MCAKHZ2WSJK2YAAYW00TWK14XLF1HWRH&client_secret=CIIBQS1LNSTDIMQ3WN4HG0IVKLAOQNYFLXPO3RLLPM3U4FJ3&v=20180602",
-        dataType: 'jsonp',
-        success: (function(index, data){
-            console.log(data);
-  //          model.locations[index].description = data.response.venue.description;
-        }).bind( null, i )
-    });
+    $.ajax({
+            url: "https://api.foursquare.com/v2/venues/" + model.locations[i].venueID + "/?client_id=AIQ4PXY5VMLG5144MCAKHZ2WSJK2YAAYW00TWK14XLF1HWRH&client_secret=CIIBQS1LNSTDIMQ3WN4HG0IVKLAOQNYFLXPO3RLLPM3U4FJ3&v=20180602",
+            dataType: 'jsonp',
+            success: (function(index, data){
+    //           model.locations[index].description = data.response.venue.description;
+            }).bind( null, i )
+        });
 
     // Get the position from the location array.
     var position = model.locations[i].location;
@@ -133,6 +132,17 @@ var viewModel = function() {
   var self = this;
   self.markerList = ko.observableArray(model.locations);
 
+  self.openMarker = function() {
+      var largeInfowindow = new google.maps.InfoWindow();
+      populateInfoWindow(this.marker, largeInfowindow);
+  { if (this.marker.getAnimation() !== null) {
+        this.marker.setAnimation(null);
+    } else {
+        this.marker.setAnimation(google.maps.Animation.BOUNCE);
+        this.marker.setAnimation(null);
+}
+}
+        }
 }
 
 

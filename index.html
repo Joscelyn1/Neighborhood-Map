@@ -21,7 +21,7 @@
           <input type="text"/>
         </div>
         <nav data-bind="foreach: markerList">
-            <li class="list-of-markers" data-bind="text: $data.title"> </li>
+            <li class="list-of-markers" data-bind="text: $data.title, click: $parent.openMarker"> </li>
         </nav>
       </div>
       <div id="map">    <script async defer
