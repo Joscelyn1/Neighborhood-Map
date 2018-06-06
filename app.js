@@ -40,7 +40,8 @@ function initMap() {
             url: "https://api.foursquare.com/v2/venues/" + model.locations[i].venueID + "/?client_id=AIQ4PXY5VMLG5144MCAKHZ2WSJK2YAAYW00TWK14XLF1HWRH&client_secret=CIIBQS1LNSTDIMQ3WN4HG0IVKLAOQNYFLXPO3RLLPM3U4FJ3&v=20180602",
             dataType: 'jsonp',
             success: (function(index, data){
-    //           model.locations[index].description = data.response.venue.description;
+                 console.log(data.response.venue.description)
+//               model.locations[index].description = data.response.venue.description;
             }).bind( null, i )
         });
 
