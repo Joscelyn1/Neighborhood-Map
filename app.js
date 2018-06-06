@@ -131,7 +131,7 @@ function hideListings() {
 
 var viewModel = function() {
   var self = this;
-  console.log(markers);
+  console.log(model.locations[0].property);
   self.markerList = ko.observableArray(model.locations);
   self.openMarker = function() {
 
