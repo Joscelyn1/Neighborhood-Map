@@ -40,34 +40,31 @@ function initMap() {
             url: "https://api.foursquare.com/v2/venues/" + model.locations[i].venueID + "/?client_id=AIQ4PXY5VMLG5144MCAKHZ2WSJK2YAAYW00TWK14XLF1HWRH&client_secret=CIIBQS1LNSTDIMQ3WN4HG0IVKLAOQNYFLXPO3RLLPM3U4FJ3&v=20180602",
             dataType: 'jsonp',
             success: (function(index, data){
-               model.locations[index].description = data.response;
-            }).bind( null, i )
+
+        // Get the position from the location array.
+        var position = model.locations[i].location;
+        var title = model.locations[i].title;
+        var address = model.locations[i].address;
+        var venueID = model.locations[i].venueID;
+        var description = model.locations[i].description;
+
+
+
+        // Create a marker per location, and put into markers array.
+         var marker = new google.maps.Marker({
+          address: address,
+          position: position,
+          title: title,
+          venueID: venueID,
+          description: description,
+          animation: google.maps.Animation.DROP,
+          id: i
         });
+        // Push the marker to our array of markers.
+        markers.push(marker);
 
-    // Get the position from the location array.
-    var position = model.locations[i].location;
-    var title = model.locations[i].title;
-    var address = model.locations[i].address;
-    var venueID = model.locations[i].venueID;
-    var description = model.locations[i].description;
-
-
-
-    // Create a marker per location, and put into markers array.
-     var marker = new google.maps.Marker({
-      address: address,
-      position: position,
-      title: title,
-      venueID: venueID,
-      description: description,
-      animation: google.maps.Animation.DROP,
-      id: i
-    });
-    // Push the marker to our array of markers.
-    markers.push(marker);
-
-    // Make each marker a property of its respective location
-    model.locations[i].marker = markers[i];
+        // Make each marker a property of its respective location
+        model.locations[i].marker = markers[i];
 
     // Create an onclick event to open an infowindow at each marker.
     marker.addListener('click', function() {
@@ -77,10 +74,14 @@ function initMap() {
         } else {
             this.setAnimation(google.maps.Animation.BOUNCE);
             this.setAnimation(null);
-    }
-    }
-    });
-showListings();
+            }
+            }
+            });
+        showListings();
+               model.locations[index].description = data.response.venue.venueid;
+            }).bind( null, i )
+        });
+
   }
   document.getElementById('show-listings').addEventListener('click', showListings);
   document.getElementById('hide-listings').addEventListener('click', hideListings);
