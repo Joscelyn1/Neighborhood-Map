@@ -17,7 +17,7 @@ var model = {
 
 /* ======= Google API ======= */
 var map;
-
+var largeInfowindow;
 // Create a new blank array for all the listing markers.
 var markers = [];
 
@@ -31,7 +31,7 @@ function initMap() {
     mapTypeControl: false
   });
 
-  var largeInfowindow = new google.maps.InfoWindow();
+    largeInfowindow = new google.maps.InfoWindow();
 
   // The following group uses the location array to create an array of markers on initialize.
   for (var i = 0; i < model.locations.length; i++) {
@@ -40,8 +40,7 @@ function initMap() {
             url: "https://api.foursquare.com/v2/venues/" + model.locations[i].venueID + "/?client_id=AIQ4PXY5VMLG5144MCAKHZ2WSJK2YAAYW00TWK14XLF1HWRH&client_secret=CIIBQS1LNSTDIMQ3WN4HG0IVKLAOQNYFLXPO3RLLPM3U4FJ3&v=20180602",
             dataType: 'jsonp',
             success: (function(index, data){
-                 console.log(data.response.venue.description)
-//               model.locations[index].description = data.response.venue.description;
+               model.locations[index].description = data.response;
             }).bind( null, i )
         });
 
@@ -132,9 +131,8 @@ function hideListings() {
 var viewModel = function() {
   var self = this;
   self.markerList = ko.observableArray(model.locations);
-
   self.openMarker = function() {
-      var largeInfowindow = new google.maps.InfoWindow();
+
       populateInfoWindow(this.marker, largeInfowindow);
   { if (this.marker.getAnimation() !== null) {
         this.marker.setAnimation(null);
