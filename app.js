@@ -128,37 +128,42 @@ function hideListings() {
 
 /* ======= viewModel ======= */
 
-var viewModel = function() {
+var viewModel = function () {
   var self = this;
+  //console.log(model.locations[0].property);
 
   //self.markerList = ko.observableArray(model.locations);
-var Location=  function(data) {
-this.title = data.title;
-this.marker = data.marker ;
+  var Location = function (data) {
+    this.title = data.title;
+    this.lat = data.location.lat;
+    this.lng = data.location.lng;
+    this.address = data.address;
+    this.venueID = data.venueID;
+    this.marker = data.location.marker;
+  }
 
-}
+  var locations = model.locations;
+  self.markerList = ko.observableArray([]);
 
-var locations = model.locations ;
-self.markerList = ko.observableArray([]);
-
-  locations.forEach(function(locationItem) {
+  locations.forEach(function (locationItem) {
     self.markerList.push(new Location(locationItem));
   });
 
-self.openMarker = function() {
+  self.openMarker = function() {
 
-  populateInfoWindow(this.marker, largeInfowindow);
-{ if (this.marker.getAnimation() !== null) {
-    this.marker.setAnimation(null);
-} else {
-    this.marker.setAnimation(google.maps.Animation.BOUNCE);
-    this.marker.setAnimation(null);
-}
-}
-        }
+    populateInfoWindow(this, largeInfowindow); {
+      console.log(this)
 
-
+      if (this.marker.getAnimation() !== null) {
+        this.marker.setAnimation(null);
+      } else {
+        this.marker.setAnimation(google.maps.Animation.BOUNCE);
+        this.marker.setAnimation(null);
+      }
+    }
+  }
 }
+
 
 ko.applyBindings(new viewModel());
 
