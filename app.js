@@ -131,9 +131,15 @@ function hideListings() {
 
 var viewModel = function() {
   var self = this;
-  console.log(model.locations[0].property);
-  self.markerList = ko.observableArray(model.locations);
-  self.openMarker = function() {
+  self.location = function(data) {
+  this.title = data.title;
+  this.lat = data.lat;
+  this.lng = data.lng;
+}
+  self.markerList = ko.observableArray([]);
+model.locations.forEach(function(locationItem) {
+    self.markerList.push(new Location(locationItem));
+});
 
       populateInfoWindow(this.marker, largeInfowindow);
   { if (this.marker.getAnimation() !== null) {
@@ -144,7 +150,7 @@ var viewModel = function() {
 }
 }
         }
-}
+
 
 
 ko.applyBindings(new viewModel());
