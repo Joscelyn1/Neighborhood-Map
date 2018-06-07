@@ -126,32 +126,39 @@ function hideListings() {
 }
 
 
-
 /* ======= viewModel ======= */
 
 var viewModel = function() {
   var self = this;
-  self.location = function(data) {
-  this.title = data.title;
-  this.lat = data.lat;
-  this.lng = data.lng;
-}
-  self.markerList = ko.observableArray([]);
-model.locations.forEach(function(locationItem) {
-    self.markerList.push(new Location(locationItem));
-});
 
-      populateInfoWindow(this.marker, largeInfowindow);
-  { if (this.marker.getAnimation() !== null) {
-        this.marker.setAnimation(null);
-    } else {
-        this.marker.setAnimation(google.maps.Animation.BOUNCE);
-        this.marker.setAnimation(null);
+  //self.markerList = ko.observableArray(model.locations);
+var Location=  function(data) {
+this.title = data.title;
+this.marker = data.marker ;
+
+}
+
+var locations = model.locations ;
+self.markerList = ko.observableArray([]);
+
+  locations.forEach(function(locationItem) {
+    self.markerList.push(new Location(locationItem));
+  });
+
+self.openMarker = function() {
+
+  populateInfoWindow(this.marker, largeInfowindow);
+{ if (this.marker.getAnimation() !== null) {
+    this.marker.setAnimation(null);
+} else {
+    this.marker.setAnimation(google.maps.Animation.BOUNCE);
+    this.marker.setAnimation(null);
 }
 }
         }
 
 
+}
 
 ko.applyBindings(new viewModel());
 
