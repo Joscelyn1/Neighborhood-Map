@@ -3,8 +3,7 @@
 
 /* ======= model ======= */
 
-
-var model = {
+var locationList = {
   locations: [
     {title: 'Ronald Reagan Library', location: {lat: 34.2597858, lng: -118.81989599999997}, address: '40 Presidential Dr, Simi Valley, CA 93065', venueID: '4b463a3bf964a520b51a26e3'},
     {title: 'Simi Valley Library', location: {lat: 34.28901761295414, lng: -118.7193630981476}, address: '2969 Tapo Canyon Rd, Simi Valley, CA 93063', venueID: '4b22cb20f964a520a64d24e3'},
@@ -12,8 +11,38 @@ var model = {
     {title: 'Lemon Park', location: {lat: 34.2896751, lng: -118.7239667}, address: '3700 Avenida Simi, Simi Valley, CA 93063', venueID: '4b26cf39f964a520478124e3'},
     {title: 'Starbucks', location: {lat: 34.2801792, lng: -118.76274480000001}, address: '2991 Cochran St, Simi Valley, CA 93065', venueID: '570b2878498eaad5a8a3743a'}
   ]
-
 };
+
+//Location object
+var Location = function (data) {
+    this.title = data.title;
+    this.lat = data.location.lat;
+    this.lng = data.location.lng;
+    this.address = data.address;
+    this.venueID = data.venueID;
+    this.marker = data.marker;
+  }
+
+/* ======= viewModel ======= */
+
+var viewModel = function () {
+  var self = this;
+
+  self.markerList = ko.observableArray([]);
+
+  self.openMarker = function() {
+    populateInfoWindow(this.marker, largeInfowindow);
+   if (this.marker.getAnimation() !== null) {
+        this.marker.setAnimation(null);
+    } else {
+        this.marker.setAnimation(google.maps.Animation.BOUNCE);
+        this.marker.setAnimation(null);
+    }
+
+  }
+}
+
+var neighborhoodVm = new viewModel();
 
 /* ======= Google API ======= */
 var map;
@@ -31,33 +60,26 @@ function initMap() {
     mapTypeControl: false
   });
 
-    largeInfowindow = new google.maps.InfoWindow();
+  largeInfowindow = new google.maps.InfoWindow();
 
   // The following group uses the location array to create an array of markers on initialize.
-  for (var i = 0; i < model.locations.length; i++) {
-
+  for (var i = 0; i < locationList.locations.length; i++) {
     $.ajax({
-            url: "https://api.foursquare.com/v2/venues/" + model.locations[i].venueID + "/?client_id=AIQ4PXY5VMLG5144MCAKHZ2WSJK2YAAYW00TWK14XLF1HWRH&client_secret=CIIBQS1LNSTDIMQ3WN4HG0IVKLAOQNYFLXPO3RLLPM3U4FJ3&v=20180602",
+            url: "https://api.foursquare.com/v2/venues/" + locationList.locations[i].venueID + "/?client_id=AIQ4PXY5VMLG5144MCAKHZ2WSJK2YAAYW00TWK14XLF1HWRH&client_secret=CIIBQS1LNSTDIMQ3WN4HG0IVKLAOQNYFLXPO3RLLPM3U4FJ3&v=20180602",
             dataType: 'jsonp',
             success: (function(index, data){
-        model.locations[index].description = "<img src=" + data.response.venue.bestPhoto.prefix + "100x100" + data.response.venue.bestPhoto.suffix + ">";
-
+        locationList.locations[index].description = "<img src=" + data.response.venue.bestPhoto.prefix + "100x100" + data.response.venue.bestPhoto.suffix + ">";
         // Get the position from the location array.
-        var position = model.locations[index].location;
-        var title = model.locations[index].title;
-        var address = model.locations[index].address;
-        var venueID = model.locations[index].venueID;
-        var description = model.locations[index].description;
 
 
 
         // Create a marker per location, and put into markers array.
          var marker = new google.maps.Marker({
-          address: address,
-          position: position,
-          title: title,
-          venueID: venueID,
-          description: description,
+          address: locationList.locations[index].address,
+          position: locationList.locations[index].location,
+          title: locationList.locations[index].title,
+          venueID: locationList.locations[index].venueID,
+          description: locationList.locations[index].description,
           animation: google.maps.Animation.DROP,
           id: index
         });
@@ -65,20 +87,24 @@ function initMap() {
         markers.push(marker);
 
         // Make each marker a property of its respective location
-        model.locations[index].marker = markers[index];
+        locationList.locations[index].marker = marker;
+        //Add to view locationList
+        neighborhoodVm.markerList.push(new Location(locationList.locations[index]));
 
     // Create an onclick event to open an infowindow at each marker.
     marker.addListener('click', function() {
       populateInfoWindow(this, largeInfowindow);
-      { if (this.getAnimation() !== null) {
+
+       if (this.getAnimation() !== null) {
             this.setAnimation(null);
         } else {
             this.setAnimation(google.maps.Animation.BOUNCE);
             this.setAnimation(null);
             }
-            }
+
             });
         showListings();
+
             }).bind( null, i )
         });
 
@@ -126,44 +152,5 @@ function hideListings() {
 }
 
 
-/* ======= viewModel ======= */
-
-var viewModel = function () {
-  var self = this;
-  //console.log(model.locations[0].property);
-
-  //self.markerList = ko.observableArray(model.locations);
-  var Location = function (data) {
-    this.title = data.title;
-    this.lat = data.location.lat;
-    this.lng = data.location.lng;
-    this.address = data.address;
-    this.venueID = data.venueID;
-    this.marker = data.location.marker;
-  }
-
-  var locations = model.locations;
-  self.markerList = ko.observableArray([]);
-
-  locations.forEach(function (locationItem) {
-    self.markerList.push(new Location(locationItem));
-  });
-
-  self.openMarker = function() {
-
-    populateInfoWindow(this, largeInfowindow); {
-      console.log(this)
-
-      if (this.marker.getAnimation() !== null) {
-        this.marker.setAnimation(null);
-      } else {
-        this.marker.setAnimation(google.maps.Animation.BOUNCE);
-        this.marker.setAnimation(null);
-      }
-    }
-  }
-}
-
-
-ko.applyBindings(new viewModel());
+ko.applyBindings(neighborhoodVm);
 

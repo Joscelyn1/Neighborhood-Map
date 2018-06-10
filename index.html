@@ -24,17 +24,17 @@
             <li class="list-of-markers" data-bind="text: $data.title, click: $parent.openMarker"> </li>
         </nav>
       </div>
-      <div id="map">    <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB8OgQ-pVjMqCTaonNPsAt4v-OzVT7k0B4&v=3&callback=initMap">
-    </script></div>
+      <div id="map"></div>
     </div>
 <!--link to knockout-->
   <script type='text/javascript' src='knockout.js'></script>
-
 <!-- link to jquery-->
   <script src='jquery.js'></script>
 <!-- link to js file-->
   <script src="app.js"></script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB8OgQ-pVjMqCTaonNPsAt4v-OzVT7k0B4&v=3&callback=initMap">
+    </script>
 </body>
 </html>
 
