@@ -23,6 +23,10 @@ var Location = function (data) {
     this.marker = data.marker;
   }
 
+var error = function() {
+  alert('There was an error loading the foursquare api');
+}
+
 /* ======= viewModel ======= */
 
 var viewModel = function () {
@@ -105,7 +109,40 @@ function initMap() {
             });
         showListings();
 
-            }).bind( null, i )
+            }).bind( null, i ),
+            error: function(index) {
+              locationList.locations[index].description = "Picture not available";
+                var marker = new google.maps.Marker({
+                  address: locationList.locations[index].address,
+                  position: locationList.locations[index].location,
+                  title: locationList.locations[index].title,
+                  venueID: locationList.locations[index].venueID,
+                  description: locationList.locations[index].description,
+                  animation: google.maps.Animation.DROP,
+                  id: index
+                });
+                // Push the marker to our array of markers.
+                markers.push(marker);
+
+                // Make each marker a property of its respective location
+                locationList.locations[index].marker = marker;
+                //Add to view locationList
+                neighborhoodVm.markerList.push(new Location(locationList.locations[index]));
+
+            // Create an onclick event to open an infowindow at each marker.
+            marker.addListener('click', function() {
+              populateInfoWindow(this, largeInfowindow);
+
+               if (this.getAnimation() !== null) {
+                    this.setAnimation(null);
+                } else {
+                    this.setAnimation(google.maps.Animation.BOUNCE);
+                    this.setAnimation(null);
+                    }
+
+            });
+        showListings();
+            }
         });
 
   }
