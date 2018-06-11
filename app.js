@@ -75,16 +75,16 @@ var viewModel = function() {
             this.marker.setAnimation(null);
         }
     }
-
     self.query = ko.observable('');
 
     self.visibleMarkers = ko.computed(function() {
         var userSearch = self.query().toLowerCase();
 
-        return self.markerList().userSearch(function(marker) {
-          return marker.indexOf(userSearch) >= 0;
+        return self.markerList().userSearch(function(markerItem) {
+          return markerItem.indexOf(userSearch) >= 0;
         });
     })
+
 
 }
 
@@ -232,6 +232,8 @@ function hideListings() {
         markers[i].setMap(null);
     }
 }
+
+
 
 
 ko.applyBindings(neighborhoodVm);
