@@ -66,7 +66,6 @@ var viewModel = function() {
     var self = this;
 
     self.markerList = ko.observableArray([]);
-
     self.openMarker = function() {
         populateInfoWindow(this.marker, largeInfowindow);
         if (this.marker.getAnimation() !== null) {
@@ -75,18 +74,17 @@ var viewModel = function() {
             this.marker.setAnimation(google.maps.Animation.BOUNCE);
             this.marker.setAnimation(null);
         }
-
     }
+
     self.query = ko.observable('');
 
     self.visibleMarkers = ko.computed(function() {
         var userSearch = self.query().toLowerCase();
-        return ko.utils.arrayFilter(self.markerList(), function(marker) {
-          return marker.title.toLowerCase().indexOf(self.userSearch) >= 0;
-        })
+
+        return self.markerList().userSearch(function(marker) {
+          return marker.indexOf(userSearch) >= 0;
+        });
     })
-
-
 
 }
 
