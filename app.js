@@ -77,6 +77,17 @@ var viewModel = function() {
         }
 
     }
+    self.query = ko.observable('');
+
+    self.visibleMarkers = ko.dependentObservable(function() {
+        self.userSearch = self.query().toLowerCase();
+        return ko.utils.arrayFilter(self.markerList, function(marker) {
+          return marker.title.toLowerCase().indexOf(visibleMarkers) >= 0;
+        })
+    })
+
+
+
 }
 
 var neighborhoodVm = new viewModel();

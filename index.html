@@ -18,7 +18,7 @@
           <input id="hide-listings" type="button" value="Hide Listings">
         </div>
         <div class="filter-box">
-          <input type="text"/>
+          <input type="search" data-bind="value: query, valueUpdate: 'keyup'"/>
         </div>
         <nav data-bind="foreach: markerList">
             <li class="list-of-markers" data-bind="text: $data.title, click: $parent.openMarker"> </li>
@@ -37,20 +37,3 @@
     </script>
 </body>
 </html>
-
-<!-- Get the List View displaying on the page with Knockout
-Review the JavaScript Design Patterns lessons 14 as needed
-
-Add the map and markers displaying on the page.
-Review the Google Maps APIs course 1 as needed
-
-Create functionality to activate the markers and open the infowindows when list view item is clicked using a Knockout.js click binding 8
-
-Add filter for map and markers.
-This post might help: How to implement Knockout into the project 10
-
-Add a third party API to provide additional data about your locations.
-Review the Intro to AJAX lessons 4 as needed.
-
-Fix styling to ensure responsiveness
-Review the Responsive Design Fundamentals lessons 1 as needed -->
