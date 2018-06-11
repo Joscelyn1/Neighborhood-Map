@@ -77,16 +77,29 @@ var viewModel = function() {
     }
     self.query = ko.observable('');
 
-    self.visibleMarkers = ko.computed(function() {
-        var userSearch = self.query().toLowerCase();
-
-        return self.markerList().userSearch(function(markerItem) {
-          return markerItem.indexOf(userSearch) >= 0;
+    this.filteredlocations = ko.dependentObservable(function() {
+        var q = this.query().toLowerCase();
+        if (!q) {
+        // Return self.spaceList() the original array;
+        return ko.utils.arrayFilter(self.markerList(), function(item) {
+          item.marker.setVisible(true);
+          return true;
         });
-    })
+        } else {
+          return ko.utils.arrayFilter(this.markerList(), function(item) {
+            if (item.title.toLowerCase().indexOf(q) >= 0) {
+            return true;
+            } else {
+              item.marker.setVisible(false);
+            return false;
+            }
+          });
+        }
+  }, this);
 
 
 }
+
 
 var neighborhoodVm = new viewModel();
 
