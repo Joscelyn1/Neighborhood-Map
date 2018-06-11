@@ -64,8 +64,9 @@ var Location = function(data) {
 
 var viewModel = function() {
     var self = this;
-
+// make an array called markerList with all the markers
     self.markerList = ko.observableArray([]);
+// populate the marker's infowindow when someone licks on the navbar item
     self.openMarker = function() {
         populateInfoWindow(this.marker, largeInfowindow);
         if (this.marker.getAnimation() !== null) {
@@ -76,16 +77,17 @@ var viewModel = function() {
         }
     }
     self.query = ko.observable('');
-
+// filter the markers
     this.filteredlocations = ko.dependentObservable(function() {
         var q = this.query().toLowerCase();
         if (!q) {
-        // Return self.spaceList() the original array;
+        // If there's no query, return the original array
         return ko.utils.arrayFilter(self.markerList(), function(item) {
           item.marker.setVisible(true);
           return true;
         });
         } else {
+        // if there is a query, only make markers visible if they match the query
           return ko.utils.arrayFilter(this.markerList(), function(item) {
             if (item.title.toLowerCase().indexOf(q) >= 0) {
             return true;
@@ -168,6 +170,7 @@ function initMap() {
                 showListings();
 
             }).bind(null, i),
+            // if foursquare api doesn't work, still make the markers, just don't show a picture
             error: (function(index) {
                 locationList.locations[index].description = "Picture not available";
                 var marker = new google.maps.Marker({
