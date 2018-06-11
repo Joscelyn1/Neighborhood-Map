@@ -20,7 +20,7 @@
         <div class="filter-box">
           <input type="search" data-bind="textInput: query, valueUpdate: 'keyup'"/>
         </div>
-        <nav data-bind="foreach: markerList">
+        <nav data-bind="foreach: filteredLocations">
             <li class="list-of-markers" data-bind="text: $data.title, click: $parent.openMarker"> </li>
         </nav>
       </div>

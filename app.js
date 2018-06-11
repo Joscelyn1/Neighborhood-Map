@@ -78,7 +78,7 @@ var viewModel = function() {
     }
     self.query = ko.observable('');
 // filter the markers
-    this.filteredlocations = ko.dependentObservable(function() {
+    this.filteredLocations = ko.dependentObservable(function() {
         var q = this.query().toLowerCase();
         if (!q) {
         // If there's no query, return the original array
