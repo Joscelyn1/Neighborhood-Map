@@ -146,7 +146,7 @@ function initMap() {
                 showListings();
 
             }).bind(null, i),
-            error: function(index) {
+            error: (function(index) {
                 locationList.locations[index].description = "Picture not available";
                 var marker = new google.maps.Marker({
                     address: locationList.locations[index].address,
@@ -178,7 +178,7 @@ function initMap() {
 
                 });
                 showListings();
-            }
+            }).bind(null, i)
         });
 
     }
