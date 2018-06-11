@@ -79,10 +79,10 @@ var viewModel = function() {
     }
     self.query = ko.observable('');
 
-    self.visibleMarkers = ko.dependentObservable(function() {
-        self.userSearch = self.query().toLowerCase();
-        return ko.utils.arrayFilter(self.markerList, function(marker) {
-          return marker.title.toLowerCase().indexOf(visibleMarkers) >= 0;
+    self.visibleMarkers = ko.computed(function() {
+        var userSearch = self.query().toLowerCase();
+        return ko.utils.arrayFilter(self.markerList(), function(marker) {
+          return marker.title.toLowerCase().indexOf(self.userSearch) >= 0;
         })
     })
 
