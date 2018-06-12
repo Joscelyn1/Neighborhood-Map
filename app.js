@@ -66,7 +66,7 @@ var viewModel = function() {
     var self = this;
 // make an array called markerList with all the markers
     self.markerList = ko.observableArray([]);
-// populate the marker's infowindow when someone licks on the navbar item
+// populate the marker's infowindow when someone clicks on the navbar item
     self.openMarker = function() {
         populateInfoWindow(this.marker, largeInfowindow);
         if (this.marker.getAnimation() !== null) {
